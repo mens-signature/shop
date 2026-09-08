@@ -1630,6 +1630,22 @@
               b.classList.toggle("active", b.dataset.value === secondSize),
             );
           updateTotal();
+
+// 🔥 এখানে Purchase Event কোডটি যোগ করুন:
+try {
+  if (typeof fbq === 'function') {
+    fbq('track', 'Purchase', {
+      value: totalAmount,         // অর্ডারের মোট টাকা (ডেলিভারি চার্জ ও অ্যাড-অনসহ)
+      currency: 'BDT',            // কারেন্সি
+      content_name: `Noble Knit Polo x${selectedQty}`,
+      num_items: selectedQty,
+      order_id: orderId
+    });
+  }
+} catch (e) {
+  console.error("Meta Pixel Purchase Event Error:", e);
+}
+          
           openSuccessModal(orderId);
         } catch (err) {
           console.error("Order submission failed:", err);
